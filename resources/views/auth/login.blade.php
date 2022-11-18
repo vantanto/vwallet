@@ -1,57 +1,45 @@
 <x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
+    <!-- Session Status -->
+    <x-auth-session-status class="mb-4" :status="session('status')" />
 
-        <!-- Session Status -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
-
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-
-            <!-- Email Address -->
-            <div>
-                <x-input-label for="email" :value="__('Email')" />
-
-                <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
+    <form class="card card-md" action="{{ route('login') }}" method="POST">
+        @csrf
+        <div class="card-body">
+            <h2 class="card-title text-center mb-4">Login to your account</h2>
+            <div class="mb-3">
+                <label class="form-label">Username or Email address</label>
+                <input type="text" id="username" name="username" class="form-control" placeholder="Enter username or email" 
+                    value="{{ old('username') }}"
+                    required autofocus tabindex="1">
+                <x-input-error :messages="$errors->get('username')" />
             </div>
-
-            <!-- Password -->
-            <div class="mt-4">
-                <x-input-label for="password" :value="__('Password')" />
-
-                <x-text-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="current-password" />
-
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
+            <div class="mb-2">
+                <label class="form-label">
+                    Password
+                    @if (Route::has('password.request'))
+                    <span class="form-label-description">
+                        <a href="{{ route('password.request') }}">I forgot password</a>
+                    </span>
+                    @endif
+                </label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Password" autocomplete="off"
+                    required tabindex="2">
+                <x-input-error :messages="$errors->get('password')" />
             </div>
-
-            <!-- Remember Me -->
-            <div class="block mt-4">
-                <label for="remember_me" class="inline-flex items-center">
-                    <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                    <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+            <div class="mb-2">
+                <label class="form-check">
+                    <input type="checkbox" name="remember" class="form-check-input" />
+                    <span class="form-check-label">Remember me on this device</span>
                 </label>
             </div>
-
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
-                @endif
-
-                <x-primary-button class="ml-3">
-                    {{ __('Log in') }}
-                </x-primary-button>
+            <div class="form-footer">
+                <button type="submit" class="btn btn-primary w-100" tabindex="3">Sign in</button>
             </div>
-        </form>
-    </x-auth-card>
+        </div>
+    </form>
+    @if (Route::has('register'))
+    <div class="text-center text-muted mt-3">
+        Don't have account yet? <a href="{{ route('register') }}" tabindex="-1">Sign up</a>
+    </div>
+    @endif
 </x-guest-layout>

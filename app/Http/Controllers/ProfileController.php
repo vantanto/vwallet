@@ -6,6 +6,7 @@ use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -30,13 +31,17 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request)
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
+        $user->name = $request->name;
+        if ($request->hasFile('avatar')) {
+            if ($user->avatar) Storage::disk('public')->delete($user->avatar);
+            $file = $request->avatar;
+            $filename = date('YmdHis') . $user->id . '.' . $file->extension();
+            $user->avatar = 'avatar/' . $filename;
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+            Storage::disk('public')->put($user->avatar, file_get_contents($file));
         }
-
-        $request->user()->save();
+        $user->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
