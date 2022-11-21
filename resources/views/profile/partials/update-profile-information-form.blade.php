@@ -4,7 +4,7 @@
         <p class="mt-1">Update your account's profile information and email address.</p>
     </header>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" autocomplete="off"
+    <form method="post" action="{{ route('profile.update') }}" autocomplete="off"
         enctype="multipart/form-data">
         @csrf
         @method('patch')

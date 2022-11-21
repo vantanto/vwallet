@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,11 +20,27 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+        ->name('dashboard');
+    
+    Route::group(['prefix' => 'wallets'], function() {
+        Route::get('/index', [WalletController::class, 'index'])
+            ->name('wallets.index');
+        Route::get('/create', [WalletController::class, 'create'])
+            ->name('wallets.create');
+        Route::post('/store', [WalletController::class, 'store'])
+            ->name('wallets.store');
+        Route::get('/edit/{id}', [WalletController::Class, 'edit'])
+            ->name('wallets.edit');
+        Route::get('/detail/{id}', [WalletController::class, 'detail'])
+            ->name('wallets.detail');
+        Route::post('/update/{id}', [WalletController::class, 'update'])
+            ->name('wallets.update');
+        Route::post('/destroy/{id}', [WalletController::class, 'destroy'])
+            ->name('wallets.destroy');
+    });
+    
     Route::get('/profile', [ProfileController::class, 'edit'])
         ->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])

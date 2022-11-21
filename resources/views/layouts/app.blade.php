@@ -15,20 +15,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="url-current" content="{{ url()->current() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- CSS files -->
     <link href="{{ asset("Tabler/dist/css/tabler.min.css") }}" rel="stylesheet" />
     <link href="{{ asset("Tabler/dist/css/tabler-flags.min.css") }}" rel="stylesheet" />
-    <link href="{{ asset("Tabler/dist/css/tabler-payments.min.css") }}" rel="stylesheet" />
     <link href="{{ asset("Tabler/dist/css/tabler-vendors.min.css") }}" rel="stylesheet" />
     <link href="{{ asset("Tabler/dist/css/demo.min.css") }}" rel="stylesheet" />
     @yield('style')
 </head>
 
 <body>
-    <div class="wrapper">
+    <script src="{{ asset("Tabler/dist/js/demo-theme.min.js?1668287865") }}"></script>
+    <div class="page">
         @include('layouts.navigation')
         <div class="page-wrapper">
             <div class="container-xl">
@@ -36,14 +37,13 @@
                 @if (isset($header))
                 <div class="page-header d-print-none">
                     <div class="row align-items-center">
-                        <div class="col">
-                            <h2 class="page-title">
-                                {{ $header }}
-                            </h2>
-                        </div>
+                        {{ $header }}
                     </div>
                 </div>
                 @endif
+
+                {{-- Session Alert --}}
+                <x-session-alert />
             </div>
             <div class="page-body">
                 <div class="container-xl">
@@ -55,8 +55,12 @@
         </div>
     </div>
     <!-- Libs JS -->
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.10/dist/sweetalert2.all.min.js" integrity="sha256-JnFqDPNKmYEQ94Z89eewUGw4ms17pi7g2QuwV2DpJRY=" crossorigin="anonymous"></script> --}}
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <!-- Tabler Core -->
     <script src="{{ asset("Tabler/dist/js/tabler.min.js") }}"></script>
+    <script src="{{ asset("assets/js/custom.js") }}"></script>
     @yield('script')
 </body>
 

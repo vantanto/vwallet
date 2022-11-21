@@ -1,6 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
-        Profile
+        <div class="col">
+            <h2 class="page-title">Profile</h2>
+        </div>
     </x-slot>
 
     <div class="row">
