@@ -18,6 +18,9 @@
         @foreach ($wallets as $wallet)
         <div class="col-lg-6">
             <div class="card">
+                @if ($wallet->is_main)
+                <div class="ribbon bg-primary">Main</div>
+                @endif
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col-3">

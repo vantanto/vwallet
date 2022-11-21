@@ -20,6 +20,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- CSS files -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons@latest/iconfont/tabler-icons.min.css">
     <link href="{{ asset("Tabler/dist/css/tabler.min.css") }}" rel="stylesheet" />
     <link href="{{ asset("Tabler/dist/css/tabler-flags.min.css") }}" rel="stylesheet" />
     <link href="{{ asset("Tabler/dist/css/tabler-vendors.min.css") }}" rel="stylesheet" />

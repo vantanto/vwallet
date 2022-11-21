@@ -28,7 +28,8 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-check">
-                        <input type="checkbox" name="is_main" class="form-check-input" value="1" />
+                        <input type="checkbox" name="is_main" class="form-check-input" value="1" 
+                            @if($wallet->is_main) checked disabled @endif/>
                         <span class="form-check-label">Main Wallet</span>
                     </label>
                 </div>
