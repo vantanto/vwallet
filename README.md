@@ -4,7 +4,7 @@
 Wallet to record incoming or outgoing transactions based on transaction's categories. Powered by laravel 9 and tabler template. 
 
 
-## ⚡ Features
+## ⚡ Features (*In Progress*)
 
 - Transaction transfer between wallet **[TODO]**
 - Dashboard diagram **[TODO]**
@@ -29,7 +29,7 @@ Install dependencies using composer
   composer install
 ```
 
-Copy and Setup database in **.env** file
+Copy and Setup database in `.env` file
 
 ```bash
   cp .env.example .env
