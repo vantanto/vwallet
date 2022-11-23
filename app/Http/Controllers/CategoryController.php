@@ -3,12 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\Scopes\UserIdScope;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
+    public static function getCategories()
+    {
+        return [
+            'main' => Category::with('categories')
+                ->whereNull('category_id')
+                ->whereNull('user_id')->get(),
+            'user' => Category::userId()->get(),
+        ];
+    }
+
     public function index(Request $request)
     {
         $categories = Category::userId()->get();
@@ -40,7 +49,7 @@ class CategoryController extends Controller
 
     public function edit(Request $request, $id)
     {
-        $category = Category::userId()->where('id', $id)->first();
+        $category = Category::userId()->where('id', $id)->firstOrFail();
         return view('category.edit', compact('category'));
     }
 
@@ -53,7 +62,7 @@ class CategoryController extends Controller
             return response()->json(['status' => 'validator', 'msg' => $validator->messages()], 400);
         }
 
-        $category = Category::userId()->where('id', $id)->first();
+        $category = Category::userId()->where('id', $id)->firstOrFail();
         $category->name = $request->name;
         $category->save();
 
@@ -62,7 +71,7 @@ class CategoryController extends Controller
 
     public function destroy(Request $request, $id)
     {
-        $category = Category::userId()->where('id', $id)->first();
+        $category = Category::userId()->where('id', $id)->firstOrFail();
         $category->delete();
         return redirect()->route('categories.index')->with('success', 'Category Successfully Deleted.');
     }

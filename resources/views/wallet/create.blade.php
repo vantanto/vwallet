@@ -31,6 +31,7 @@
                     </label>
                 </div>
                 <button type="submit" id="mainFormBtn" class="btn btn-primary">Submit</button>
+                <a href="{{ route('wallets.index') }}" class="ms-3">Back</a>
             </div>
         </div>
     </form>

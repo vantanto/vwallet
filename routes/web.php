@@ -3,7 +3,9 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\WalletController;
+use App\Http\Middleware\EnsureWalletUser;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,6 +40,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('categories.update');
         Route::post('/destroy/{id}', [CategoryController::class, 'destroy'])
             ->name('categories.destroy');
+    });
+
+    Route::group(['prefix' => 'transactions', 'middleware' => EnsureWalletUser::class], function() {
+        Route::get('/create/{wallet}', [TransactionController::class, 'create'])
+            ->name('transactions.create');
+        Route::post('/store/{wallet}', [TransactionController::class, 'store'])
+            ->name('transactions.store');
+        Route::get('/edit/{wallet}/{id}', [TransactionController::class, 'edit'])
+            ->name('transactions.edit');
+        Route::post('/update/{wallet}/{id}', [TransactionController::class, 'update'])
+            ->name('transactions.update');
+        Route::post('/destroy/{wallet}/{id}', [TransactionController::class, 'destroy'])
+            ->name('transactions.destroy');
     });
     
     Route::group(['prefix' => 'wallets'], function() {

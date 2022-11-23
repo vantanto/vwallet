@@ -1,6 +1,8 @@
 function confirmSwalAlert(element, description = null) {
     event.preventDefault();
-	var form = element.closest('form'); // storing the form
+	var form = element.getAttribute('form') 
+        ? document.getElementById(element.getAttribute('form'))
+        : element.closest('form'); // storing the form
 	swal({
         title: "Are you sure?",
         text: description ?? "Once deleted, you will not be able to recover this data!",

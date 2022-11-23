@@ -21,9 +21,15 @@ class DatabaseSeeder extends Seeder
             'username' => 'admin',
             'email' => 'admin@example.com',
         ]);
+        \App\Models\User::factory()->create([
+            'name' => 'Test Admin 2',
+            'username' => 'admin2',
+            'email' => 'admin2@example.com',
+        ]);
 
         $this->call([
             CategoriesSeeder::class,
+            WalletsSeeder::class,
         ]);
     }
 }

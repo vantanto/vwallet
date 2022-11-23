@@ -21,7 +21,7 @@
                         <label class="form-label">Balance</label>
                         <input type="text" id="balance" name="balance" class="form-control" placeholder="Enter balance" 
                             data-type="thousand"
-                            value="{{ $wallet->balance }}"
+                            value="{{ $wallet->balance_format }}"
                             required>
                         <div class="invalid-feedback"></div>
                     </div>
@@ -34,6 +34,7 @@
                     </label>
                 </div>
                 <button type="submit" id="mainFormBtn" class="btn btn-primary">Submit</button>
+                <a href="{{ route('wallets.detail', $wallet->id) }}" class="ms-3">Back</a>
             </div>
         </div>
     </form>

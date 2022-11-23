@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transaction;
 use App\Models\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -44,13 +45,19 @@ class WalletController extends Controller
 
     public function detail(Request $request, $id)
     {
-        $wallet = Wallet::where('id', $id)->first();
-        return view('wallet.detail', compact('wallet'));
+        $wallet = Wallet::where('id', $id)->firstOrFail();
+        $transactions = Transaction::with('category')
+            ->where('wallet_id', $wallet->id)
+            ->whereBetween('date', [date('Y-m-01'), date('Y-m-d')])
+            ->orderBy('date', 'desc')
+            ->limit(15)
+            ->get();
+        return view('wallet.detail', compact('wallet', 'transactions'));
     }
 
     public function edit(Request $request, $id)
     {
-        $wallet = Wallet::where('id', $id)->first();
+        $wallet = Wallet::where('id', $id)->firstOrFail();
         return view('wallet.edit', compact('wallet'));
     }
 
@@ -64,7 +71,7 @@ class WalletController extends Controller
             return response()->json(['status' => 'validator', 'msg' => $validator->messages()], 400);
         }
 
-        $wallet = Wallet::where('id', $id)->first();
+        $wallet = Wallet::where('id', $id)->firstOrFail();
         $wallet->name = $request->name;
         $wallet->is_main = $request->is_main ? true : false;
         $wallet->save();
@@ -74,7 +81,7 @@ class WalletController extends Controller
 
     public function destroy(Request $request, $id)
     {
-        $wallet = Wallet::where('id', $id)->first();
+        $wallet = Wallet::where('id', $id)->firstOrFail();
         $wallet->delete();
         return redirect()->route('wallets.index')->with('success', 'Wallet Successfully Deleted.');
     }

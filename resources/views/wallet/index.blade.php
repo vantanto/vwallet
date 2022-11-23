@@ -31,7 +31,7 @@
                                 <a href="{{ route('wallets.detail', $wallet->id) }}" class="text-reset">{{ $wallet->name }}</a>
                             </h3>
                             <p>
-                                {{ $wallet->balance }}
+                                {{ $wallet->balance_format }}
                             </p>
                             <div class="mt-3">
                                 <div class="row g-2 align-items-center">
