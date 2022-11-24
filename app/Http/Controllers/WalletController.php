@@ -36,7 +36,9 @@ class WalletController extends Controller
         $wallet->name = $request->name;
         $wallet->initial_balance = $request->balance;
         $wallet->balance = $request->balance;
-        $wallet->is_main = $request->is_main ? true : false;
+        $wallet->is_main = $user->wallets->count() > 0 
+            ? ($request->is_main ? true : false)
+            : true;
         $wallet->user_id = $user->id;
         $wallet->save();
 
@@ -56,7 +58,6 @@ class WalletController extends Controller
             ->where('wallet_id', $wallet->id)
             ->whereBetween('date', [date('Y-m-01'), date('Y-m-d')])
             ->orderBy('date', 'desc')
-            ->limit(15)
             ->get();
         return view('wallet.detail', compact('wallet', 'transactions'));
     }
