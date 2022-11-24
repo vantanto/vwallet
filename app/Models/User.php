@@ -58,4 +58,9 @@ class User extends Authenticatable implements MustVerifyEmail
                     : url('assets/image/avatar.png')
         );
     }
+
+    public function wallets()
+    {
+        return $this->hasMany(Wallet::class);
+    }
 }

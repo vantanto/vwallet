@@ -10,14 +10,37 @@
             <div class="card-body p-4">
                 <div class="row">
                     <div class="mb-3 col-md-6">
-                        <label class="form-label">Type</label>
-                        <div class="btn-group w-100" role="group">
-                            <input type="radio" id="type_in" name="type" class="btn-check" 
-                                value="in" required @if($transaction->type == "in") checked @endif>
-                            <label for="type_in" type="button" class="btn text-success">Income</label>
-                            <input type="radio" id="type_out" name="type" class="btn-check" 
-                                value="out" @if($transaction->type == "out") checked @endif>
-                            <label for="type_out" type="button" class="btn text-danger">Expense</label>
+                        <div class="mb-3">
+                            <label class="form-label">Type</label>
+                            <div class="btn-group w-100" role="group">
+                                <input type="radio" id="type_in" name="type" class="btn-check" 
+                                    value="in" required @if($transaction->type == "in") checked @endif>
+                                <label for="type_in" type="button" class="btn text-success">Income</label>
+                                <input type="radio" id="type_out" name="type" class="btn-check" 
+                                    value="out" @if($transaction->type == "out") checked @endif>
+                                <label for="type_out" type="button" class="btn text-danger">Expense</label>
+                                <input type="radio" id="type_transfer" name="type" class="btn-check" 
+                                    value="transfer" @if($transaction->type == "transfer") checked @endif>
+                                <label for="type_transfer" type="button" class="btn text-info">Transfer</label>
+                            </div>
+                        </div>
+                        <div id="parent_designated_wallet" style="@if($transaction->type != "transfer") display: none; @endif">
+                            <label class="form-label">Designated Wallet</label>
+                            <select id="designated_wallet" name="designated_wallet" class="form-select"
+                                required @if($transaction->type != "transfer") disabled @endif>
+                                <option value="" selected disabled>Select Designated Wallet</option>
+                                @foreach ($designatedWallets as $designatedWallet)
+                                <option value="{{ $designatedWallet->id }}"
+                                    @if($transaction->type == "transfer"
+                                        && ($transaction->designated_wallet_id ? $transaction->designated_wallet_id : $transaction->designatedWalletChild->id)
+                                        == $designatedWallet->id) 
+                                        selected 
+                                    @endif>
+                                    {{ $designatedWallet->name }}
+                                </option>
+                                @endforeach
+                            </select>
+                            <div class="invalid-feedback"></div>
                         </div>
                     </div>
                     <div class="mb-3 col-md-6">
@@ -87,10 +110,13 @@
 <script src="{{ asset('assets/js/submitForm.js') }}"></script>
 <script>mainFormSubmit()</script>
 <script>
-    $("#category").select2({
-        placeholder: 'Select Category 2',
-        theme: 'bootstrap-5'
-    })
+    new TomSelect('#category', settingsTomSelect);
+
+    $(document).on('change', 'input[name="type"]', function() {
+        const isVisible = this.value == "transfer";
+        $("#parent_designated_wallet").toggle(isVisible);
+        $("#designated_wallet").prop('disabled', !isVisible);
+    });
 </script>
 @endsection
 </x-app-layout>

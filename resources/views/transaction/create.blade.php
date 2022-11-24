@@ -10,14 +10,32 @@
             <div class="card-body p-4">
                 <div class="row">
                     <div class="mb-3 col-md-6">
-                        <label class="form-label">Type</label>
-                        <div class="btn-group w-100" role="group">
-                            <input type="radio" id="type_in" name="type" class="btn-check" 
-                                value="in" required>
-                            <label for="type_in" type="button" class="btn text-success">Income</label>
-                            <input type="radio" id="type_out" name="type" class="btn-check" 
-                                value="out" checked>
-                            <label for="type_out" type="button" class="btn text-danger">Expense</label>
+                        <div class="mb-3">
+                            <label class="form-label">Type</label>
+                            <div class="btn-group w-100" role="group">
+                                <input type="radio" id="type_in" name="type" class="btn-check" 
+                                    value="in" required>
+                                <label for="type_in" type="button" class="btn text-success">Income</label>
+                                <input type="radio" id="type_out" name="type" class="btn-check" 
+                                    value="out" checked>
+                                <label for="type_out" type="button" class="btn text-danger">Expense</label>
+                                <input type="radio" id="type_transfer" name="type" class="btn-check" 
+                                    value="transfer" >
+                                <label for="type_transfer" type="button" class="btn text-info">Transfer</label>
+                            </div>
+                        </div>
+                        <div id="parent_designated_wallet" style="display: none;">
+                            <label class="form-label">Designated Wallet</label>
+                            <select id="designated_wallet" name="designated_wallet" class="form-select"
+                                required disabled>
+                                <option value="" selected disabled>Select Designated Wallet</option>
+                                @foreach ($designatedWallets as $designatedWallet)
+                                <option value="{{ $designatedWallet->id }}">
+                                    {{ $designatedWallet->name }}
+                                </option>
+                                @endforeach
+                            </select>
+                            <div class="invalid-feedback"></div>
                         </div>
                     </div>
                     <div class="mb-3 col-md-6">
@@ -76,10 +94,13 @@
 <script src="{{ asset('assets/js/submitForm.js') }}"></script>
 <script>mainFormSubmit()</script>
 <script>
-    $("#category").select2({
-        placeholder: 'Select Category 2',
-        theme: 'bootstrap-5'
-    })
+    new TomSelect('#category', settingsTomSelect);
+
+    $(document).on('change', 'input[name="type"]', function() {
+        const isVisible = this.value == "transfer";
+        $("#parent_designated_wallet").toggle(isVisible);
+        $("#designated_wallet").prop('disabled', !isVisible);
+    });
 </script>
 @endsection
 </x-app-layout>

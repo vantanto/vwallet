@@ -40,13 +40,19 @@ class WalletController extends Controller
         $wallet->user_id = $user->id;
         $wallet->save();
 
+        if ($wallet->is_main) {
+            Wallet::where('id', '!=', $wallet->id)
+                ->where('is_main', true)
+                ->update(['is_main' => false]);
+        }
+
         return response()->json(['status' => 'success', 'msg' => 'Wallet Successfully Created.']);
     }
 
     public function detail(Request $request, $id)
     {
         $wallet = Wallet::where('id', $id)->firstOrFail();
-        $transactions = Transaction::with('category')
+        $transactions = Transaction::with(['category', 'designatedWallet', 'designatedWalletChild'])
             ->where('wallet_id', $wallet->id)
             ->whereBetween('date', [date('Y-m-01'), date('Y-m-d')])
             ->orderBy('date', 'desc')
@@ -75,6 +81,12 @@ class WalletController extends Controller
         $wallet->name = $request->name;
         $wallet->is_main = $request->is_main ? true : false;
         $wallet->save();
+
+        if ($wallet->is_main) {
+            Wallet::where('id', '!=', $wallet->id)
+                ->where('is_main', true)
+                ->update(['is_main' => false]);
+        }
 
         return response()->json(['status' => 'success', 'msg' => 'Wallet Successfully Updated.']);
     }
