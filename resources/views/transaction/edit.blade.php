@@ -61,7 +61,7 @@
                         <label class="form-label">Category</label>
                         <select id="category" name="category" class="form-select" style="width: 100%;" 
                             required>
-                            <option value="" disabled selected>Select Category</option>
+                            <option value="" disabled>Select Category</option>
                             @foreach ($categories['main'] as $mainCategory)
                             <optgroup label="{{ $mainCategory->name }}">
                                 <option value="{{ $mainCategory->id }}"
@@ -110,10 +110,10 @@
 <script src="{{ asset('assets/js/submitForm.js') }}"></script>
 <script>mainFormSubmit()</script>
 <script>
-    new TomSelect('#category', settingsTomSelect);
+    $("#category").select2();
 
     $(document).on('change', 'input[name="type"]', function() {
-        const isVisible = this.value == "transfer";
+        const isVisible = $('input[name="type"]:checked').val() == "transfer";
         $("#parent_designated_wallet").toggle(isVisible);
         $("#designated_wallet").prop('disabled', !isVisible);
     });

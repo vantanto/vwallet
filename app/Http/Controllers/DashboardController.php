@@ -12,7 +12,10 @@ class DashboardController extends Controller
     {
         $wallet = Wallet::where('is_main', true)->first();
         $transactions = [];
-        $cashFlows['inout'] = ["in" => 0, "out" => 0];
+        $cashFlows = [
+            'inout' => ["in" => 0, "out" => 0],
+            'status' => "",
+        ];
         
         if ($wallet) {
             $transactions = Transaction::with(['category', 'designatedWallet', 'designatedWalletChild'])
@@ -22,24 +25,23 @@ class DashboardController extends Controller
                 ->limit(15)
                 ->get();
 
-            $cashFlows['inout'] = [
-                'in' => Transaction::where(fn($query) => 
+            // Get CashFlow Total
+            $cashFlows['inout']['in'] = Transaction::where(fn($query) => 
                         $query->where(fn($query2) => $query2->whereHas('wallet')->where('type', 'in'))
                             ->orWhere(fn($query2) => $query2->wherehas('designatedWalletChild')->where('type', 'transfer'))
                     )
                     ->whereBetween('date', [date('Y-m-01'), date('Y-m-d')])
-                    ->sum('nominal'),
-                'out' => Transaction::where(fn($query) => 
+                    ->sum('nominal');
+            $cashFlows['inout']['out'] = Transaction::where(fn($query) => 
                         $query->where(fn($query2) => $query2->whereHas('wallet')->where('type', 'out'))
                             ->orWhere(fn($query2) => $query2->wherehas('designatedWallet')->where('type', 'transfer'))
                     )
                     ->whereBetween('date', [date('Y-m-01'), date('Y-m-d')])
-                    ->sum('nominal'),
-            ];
+                    ->sum('nominal');
+
+            if ($cashFlows['inout']['in'] > $cashFlows['inout']['out']) $cashFlows['status'] = "+";
+            else if ($cashFlows['inout']['in'] < $cashFlows['inout']['out']) $cashFlows['status'] = "-";
         }
-        $cashFlows['status'] = "";
-        if ($cashFlows['inout']['in'] > $cashFlows['inout']['out']) $cashFlows['status'] = "+";
-        else if ($cashFlows['inout']['in'] < $cashFlows['inout']['out']) $cashFlows['status'] = "-";
         
         return view('dashboard', compact('wallet', 'transactions', 'cashFlows'));
     }

@@ -49,7 +49,8 @@ function submitForm(
         success: pSuccess ??function(data, textStatus, jqXHR) {
             if (data.status == "success") {
                 swalAlert('success', data.msg).then(() => {
-                    window.location.href = data.href ?? $('meta[name="url-current"]').attr('content')
+                    if (data.href) window.location.href = data.href;
+                    else resetForm(mainForm);
                 });
             }
         },
@@ -78,4 +79,9 @@ function submitForm(
             mainFormBtn.html(mainFormBtnHtml)
         }
     });
+}
+
+function resetForm(mainForm) {
+    mainForm.get(0).reset();
+    $('#' + mainForm.attr('id') + ' input,select').trigger('change');
 }

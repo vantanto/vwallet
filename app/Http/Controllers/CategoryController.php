@@ -66,7 +66,7 @@ class CategoryController extends Controller
         $category->name = $request->name;
         $category->save();
 
-        return response()->json(['status' => 'success', 'msg' => 'Category Successfully Updated.']);
+        return response()->json(['status' => 'success', 'msg' => 'Category Successfully Updated.', 'href' => route('categories.edit', $category->id)]);
     }
 
     public function destroy(Request $request, $id)

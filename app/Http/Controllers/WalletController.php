@@ -89,7 +89,7 @@ class WalletController extends Controller
                 ->update(['is_main' => false]);
         }
 
-        return response()->json(['status' => 'success', 'msg' => 'Wallet Successfully Updated.']);
+        return response()->json(['status' => 'success', 'msg' => 'Wallet Successfully Updated.', 'href' => route('wallets.detail', $wallet->id)]);
     }
 
     public function destroy(Request $request, $id)

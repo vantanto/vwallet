@@ -28,7 +28,7 @@
                             <label class="form-label">Designated Wallet</label>
                             <select id="designated_wallet" name="designated_wallet" class="form-select"
                                 required disabled>
-                                <option value="" selected disabled>Select Designated Wallet</option>
+                                <option value="" disabled>Select Designated Wallet</option>
                                 @foreach ($designatedWallets as $designatedWallet)
                                 <option value="{{ $designatedWallet->id }}">
                                     {{ $designatedWallet->name }}
@@ -94,10 +94,10 @@
 <script src="{{ asset('assets/js/submitForm.js') }}"></script>
 <script>mainFormSubmit()</script>
 <script>
-    new TomSelect('#category', settingsTomSelect);
+    $("#category").select2();
 
     $(document).on('change', 'input[name="type"]', function() {
-        const isVisible = this.value == "transfer";
+        const isVisible = $('input[name="type"]:checked').val() == "transfer";
         $("#parent_designated_wallet").toggle(isVisible);
         $("#designated_wallet").prop('disabled', !isVisible);
     });
