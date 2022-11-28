@@ -20,13 +20,14 @@ class Category extends Model
     protected function icon(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => $value ?? "ti ti-receipt-2"
+            get: fn($value) => $value 
+                ?? ($this->category_id ? $this->category->icon : "ti ti-receipt-2")
         );
     }
 
-    public function scopeUserId($query)
+    public function scopeUserId($query, $alias = 'categories')
     {
-        return $query->where('user_id', Auth::user()->id);
+        return $query->where($alias.'.user_id', Auth::user()->id);
     }
 
     public function categories()
@@ -37,6 +38,11 @@ class Category extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
     }
 
     public function user()

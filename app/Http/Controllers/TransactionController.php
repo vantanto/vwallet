@@ -188,7 +188,7 @@ class TransactionController extends Controller
             }
 
             DB::commit();
-            return response()->json(['status' => 'success', 'msg' => 'Transaction Successfully Updated.', 'href' => route('transaction.edit', [$wallet->id, $transaction->id])]);
+            return response()->json(['status' => 'success', 'msg' => 'Transaction Successfully Updated.', 'href' => route('transactions.edit', [$wallet->id, $transaction->id])]);
         } catch (\Exception $ex) {
             DB::rollBack();
             return response()->json(['status' => 'error', 'msg' => 'Transaction Failed Updated.'], 400);

@@ -54,7 +54,7 @@ class WalletController extends Controller
     public function detail(Request $request, $id)
     {
         $wallet = Wallet::where('id', $id)->firstOrFail();
-        $transactions = Transaction::with(['category', 'designatedWallet', 'designatedWalletChild'])
+        $transactions = Transaction::with(['category.category', 'designatedWallet', 'designatedWalletChild'])
             ->where('wallet_id', $wallet->id)
             ->whereBetween('date', [date('Y-m-01'), date('Y-m-d')])
             ->orderBy('date', 'desc')

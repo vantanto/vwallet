@@ -7,7 +7,7 @@ Wallet to record incoming or outgoing transactions based on transaction's catego
 ## ⚡ Features (*In Progress*)
 
 - Transaction transfer between wallet
-- Dashboard diagram **[TODO]**
+- Dashboard Widget
 - Integration with Bank Account Transaction (BCA) **[TODO]**
 - Mobile App **[TODO]**
 

@@ -48,7 +48,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <x-list-transactions :wallet="$wallet" :transactions="$transactions" />
+                    <x-list-transactions :transactions="$transactions" />
                 </div>
             </div>
         </div>

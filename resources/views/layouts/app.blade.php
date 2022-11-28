@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
     <link href="{{ asset("Tabler/dist/css/demo.min.css") }}" rel="stylesheet" />
     <link href="{{ asset("assets/css/custom.css") }}" rel="stylesheet" />
+    @stack('styles')
     @yield('style')
 </head>
 
@@ -62,6 +63,7 @@
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
     <!-- Tabler Core -->
     <script src="{{ asset("Tabler/dist/js/tabler.min.js") }}"></script>
     <script src="{{ asset("assets/js/custom.js") }}"></script>
@@ -69,6 +71,7 @@
     <script>
         $.fn.select2.defaults.set("theme", "bootstrap-5");
     </script>
+    @stack('scripts')
     @yield('script')
 </body>
 

@@ -1,4 +1,4 @@
-@props(['wallet', 'transactions'])
+@props(['transactions'])
 
 <div class="list-group list-group-flush list-group-hoverable">
     @forelse($transactions as $transaction)
@@ -17,7 +17,7 @@
                 <div class="col text-truncate">
                     <a href="{{ ($transaction->type == "transfer" && $transaction->designated_wallet_id)
                         ? route('transactions.edit', [$transaction->designated_wallet_id, $transaction->designated_transaction_id])
-                        : route('transactions.edit', [$wallet->id, $transaction->id]) }}" 
+                        : route('transactions.edit', [$transaction->wallet_id, $transaction->id]) }}" 
                         class="text-reset d-block">
                         {{ $transaction->category->name }}
                     </a>
