@@ -8,7 +8,6 @@
     <div class="row">
         <div class="col-md-6 col-lg-3 mb-3">
             <div class="card">
-                <div class="img-responsive img-responsive-21x9 card-img-top" style="background-image: url(./static/photos/home-office-desk-with-macbook-iphone-calendar-watch-and-organizer.jpg)"></div>
                 <div class="card-body">
                     <div class="card-body text-center">
                         <h3 class="m-0 mb-1">{{ $wallet->name }}</h3>

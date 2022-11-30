@@ -23,8 +23,13 @@
                 @endif
                 <div class="card-body">
                     <div class="row align-items-center">
-                        <div class="col-3">
-                            <img src="https://cdn.dribbble.com/users/844826/screenshots/14553706/media/2be9a4847b939e02702648d058cf2df8.png" alt="Food Deliver UI dashboards" class="rounded">
+                        <div class="col-3 p-3">
+                            <!-- Download SVG icon from http://tabler-icons.io/i/wallet -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-lg" style="width: 100%; height: 100%;" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M17 8v-3a1 1 0 0 0 -1 -1h-10a2 2 0 0 0 0 4h12a1 1 0 0 1 1 1v3m0 4v3a1 1 0 0 1 -1 1h-12a2 2 0 0 1 -2 -2v-12"></path>
+                                <path d="M20 12v4h-4a2 2 0 0 1 0 -4h4"></path>
+                             </svg>
                         </div>
                         <div class="col">
                             <h3 class="card-title mb-1">

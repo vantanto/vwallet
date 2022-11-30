@@ -4,11 +4,11 @@
 Wallet to record incoming or outgoing transactions based on transaction's categories. Powered by laravel 9 and tabler template. 
 
 
-## ⚡ Features (*In Progress*)
+## ⚡ Features
 
 - Transaction transfer between wallet
 - Dashboard Widget
-- Integration with Bank Account Transaction (BCA) **[TODO]**
+- *Integration with Bank Account Transaction (BCA)* **[TODO]**
 - Mobile App **[TODO]**
 
 
