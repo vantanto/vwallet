@@ -4,6 +4,13 @@
 Wallet to record incoming or outgoing transactions based on transaction's categories. Powered by laravel 9 and tabler template. 
 
 
+## 📸 Showcase
+
+<p align="center">
+<img src="./public/assets/demo.gif" width="600"><br>
+</p>
+
+
 ## ⚡ Features
 
 - Transaction transfer between wallet
@@ -44,6 +51,10 @@ php artisan serve
 ```
 
 You can now access the server at http://localhost:8000
+
+> **📃**
+> View more documentation in <a href="https://vantanto.github.io/pages/documentation/vwallet.html" target="_blank">here</a>.
+
 ## 📝 Credit
 
 #### Special Thanks
