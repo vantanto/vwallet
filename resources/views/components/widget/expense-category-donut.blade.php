@@ -30,8 +30,8 @@
             fill: {
                 opacity: 1,
             },
-            series: dataCategories['sum'],
-            labels: dataCategories['name'],
+            series: dataCategories['sum'].length > 0 ? dataCategories['sum'] : [1],
+            labels: dataCategories['name'].lengt > 0 ? dataCategories['name'] : ["No Expenses"],
             tooltip: {
                 theme: 'dark'
             },
