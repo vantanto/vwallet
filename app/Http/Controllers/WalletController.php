@@ -58,8 +58,10 @@ class WalletController extends Controller
             ->where('wallet_id', $wallet->id)
             ->whereBetween('date', [date('Y-m-01'), date('Y-m-d')])
             ->orderBy('date', 'desc')
+            ->orderBy('id', 'desc')
             ->get();
-        return view('wallet.detail', compact('wallet', 'transactions'));
+        $oldTransaction = Transaction::where('date', '<', date('Y-m-01'))->first();
+        return view('wallet.detail', compact('wallet', 'transactions', 'oldTransaction'));
     }
 
     public function edit(Request $request, $id)

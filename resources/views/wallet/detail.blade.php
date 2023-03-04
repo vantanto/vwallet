@@ -47,7 +47,14 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <x-list-transactions :transactions="$transactions" />
+                    <div id="transaction-load-more">
+                        <x-list-transactions :transactions="$transactions" />
+                    </div>
+                    @if($oldTransaction)
+                        <div class="text-center">
+                            <button type="button" id="transactions-load-more-btn" class="btn btn-ghost-info btn-pill">Older Transaction</button>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -55,5 +62,38 @@
 @section('script')
 <script src="{{ asset('assets/js/submitForm.js') }}"></script>
 <script>mainFormSubmit()</script>
+<script>
+    const loadMoreBtn = $("#transactions-load-more-btn");
+    const loadMoreBtnHtml = loadMoreBtn.html();
+    var offset = 0;
+
+    loadMoreBtn.click(function() {
+        $.ajax({
+            method: "post",
+            url: "{{ route('transactions.load-more', [$wallet->id, '']) }}" + "/" + offset,
+            beforeSend: function() {
+                loadMoreBtn.prop('disabled', true);
+                loadMoreBtn.html(loadMoreBtn.attr('data-loading') ?? "Loading . . .");
+            },
+            success: function(data, textStatus, jqXHR) {
+                if (data.status == "success") {
+                    if ("{{ count($transactions) }}" == 0 && offset == 0) {
+                       $("#transaction-load-more").empty(); 
+                    }
+
+                    $("#transaction-load-more").append(data.data.view);
+                    
+                    if (data.data.offset == null) {
+                        loadMoreBtn.remove();
+                    } else {
+                        offset = data.data.offset;
+                        loadMoreBtn.prop('disabled', false);
+                        loadMoreBtn.html(loadMoreBtnHtml);
+                    }
+                }
+            },
+        })
+    });
+</script>
 @endsection
 </x-app-layout>

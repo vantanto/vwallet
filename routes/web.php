@@ -53,6 +53,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('transactions.update');
         Route::post('/destroy/{wallet}/{id}', [TransactionController::class, 'destroy'])
             ->name('transactions.destroy');
+        Route::post('/load-more/{wallet}/{offset}', [TransactionController::class, 'loadMore'])
+            ->name('transactions.load-more');
     });
     
     Route::group(['prefix' => 'wallets'], function() {

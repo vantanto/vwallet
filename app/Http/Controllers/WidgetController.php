@@ -42,6 +42,7 @@ class WidgetController extends Controller
             ->where('wallet_id', $wallet->id)
             ->whereBetween('date', [date('Y-m-01'), date('Y-m-d')])
             ->orderBy('date', 'desc')
+            ->orderBy('id', 'desc')
             ->limit(7)
             ->get();
 

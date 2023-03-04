@@ -224,4 +224,33 @@ class TransactionController extends Controller
         $transaction->delete();
         return redirect()->route('wallets.detail', $wallet->id)->with('success', 'Transaction Successfully Deleted.');
     }
+
+    public function loadMore(Request $request, $wallet, $offset)
+    {
+        $limit = 11;
+        $wallet = $request->wallet;
+        $transactions = Transaction::with(['category.category', 'designatedWallet', 'designatedWalletChild'])
+            ->where('wallet_id', $wallet->id)
+            ->where('date', '<', date('Y-m-01'))
+            ->orderBy('date', 'desc')
+            ->orderBy('id', 'desc')
+            ->offset($offset)
+            ->limit($limit)
+            ->get();
+
+        $transactionsCount = count($transactions);
+        if ($transactionsCount > 0) {
+            $offset = $transactionsCount == $limit ? ($offset + ($limit - 1)) : null;
+            $transactions = $transactions->take(($limit - 1));
+            return response()->json([
+                'status' => 'success',
+                'data' => [
+                    'offset' => $offset,
+                    'view' => view('components.list-transactions', compact('transactions'))->render()
+                ]
+            ]);
+        } else {
+            return response()->json(['status' => 'not_found', 'msg' => 'Transaction Not Found.'], 404);
+        }
+    }
 }
